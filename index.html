@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Task for LD2</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><b>LGE</b><span>Task for LD2</span></div>
+    <div class="side-search"><span>⌕</span><input id="globalSearch" placeholder="Search..." /></div>
+    <nav id="navList">
+      <button class="nav-item active" data-page="model"><span>▦</span><span>Model Overview</span></button>
+      <button class="nav-item" data-page="projects"><span>▥</span><span>Project Overview</span></button>
+      <button class="nav-item" data-page="ppap"><span>▤</span><span>PPAP List</span></button>
+      <button class="nav-item" data-page="modelList"><span>≣</span><span>Model List</span></button>
+      <button class="nav-item" data-page="mold"><span>⬡</span><span>Mold List</span></button>
+      <button class="nav-item" data-page="event"><span>☑</span><span>Event Check List</span></button>
+      <button class="nav-item" data-page="issue"><span>⚠</span><span>Issue List</span></button>
+    </nav>
+    <div class="side-foot">LGE Internal Use Only</div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><button id="mobileMenu">☰</button><span>LGE Internal Use Only</span><div class="top-user"><span class="sync-dot"></span>Local prototype <b>Admin</b></div></header>
+
+    <section class="page active" id="page-model">
+      <div class="page-head"><div><div class="eyebrow">Portfolio</div><h1>Model Overview</h1><p>Product → Customer → Model → Slide</p></div><div class="page-head-actions"><div class="head-search"><span>⌕</span><input id="modelSearch" placeholder="Search model..." /><small>Realtime</small></div><button class="primary" id="addModelBtn">＋ Add model</button></div></div>
+      <div class="product-tabs" id="modelProductTabs"></div>
+      <div class="toolbar one model-filter-toolbar"><label>Customer<select id="modelCustomer"></select></label></div>
+      <div class="layout-main-aside"><div class="card table-card"><div class="table-scroll"><table><thead><tr><th>Model name</th><th>SOP</th><th>EOL</th><th>Stage</th><th>PIC</th><th></th></tr></thead><tbody id="modelRows"></tbody></table></div><div class="card-footer" id="modelCount"></div></div><aside class="card info-panel"><div class="round-icon">▣</div><h2 id="modelInfoTitle">Model</h2><p id="modelInfoText">Select a model to view the slide.</p></aside></div>
+    </section>
+
+
+    <section class="page" id="page-projects">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Project portfolio</div>
+          <h1>Project Overview</h1>
+          <p>Copied from PPAP local app · simplified to Project / Buyer / Timeline</p>
+        </div>
+        <div class="page-head-actions">
+          <div class="head-search">
+            <span>⌕</span>
+            <input id="projectOverviewSearch" placeholder="Search project / buyer..." />
+            <small>Realtime</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="card project-overview-card">
+        <div class="card-title">
+          <div>
+            <h2>Project Overview</h2>
+            <p>Only the columns kept from the original dashboard component</p>
+          </div>
+          <span class="badge neutral" id="projectOverviewCount"></span>
+        </div>
+        <div class="table-scroll project-overview-scroll">
+          <table class="project-overview-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Project</th>
+                <th>Buyer</th>
+                <th>Timeline</th>
+              </tr>
+            </thead>
+            <tbody id="projectOverviewRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+        <section class="page" id="page-ppap">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Quality readiness</div>
+          <h1>PPAP List</h1>
+          <p>All parts overview → Product filter → Model cards → Part detail</p>
+        </div>
+        <div class="page-head-actions"><button class="primary" id="addPpapPartBtn">+ Add PPAP part</button></div>
+      </div>
+      <div class="ppap-product-filter card">
+        <div class="ppap-product-filter-head">
+          <div><label>Product</label><div class="ppap-product-tabs" id="ppapProductTabs"></div></div>
+          <div class="ppap-summary-inline" id="ppapSummaryInline"></div>
+        </div>
+      </div>
+      <div class="card ppap-overview-card">
+        <div class="card-title"><div><h2>PPAP Status Overview</h2><p>Combined status of all parts in the selected product scope</p></div><span class="badge neutral" id="ppapOverviewScope"></span></div>
+        <div class="ppap-overview-body"><div class="ppap-overview-chart" id="ppapOverviewChart"></div><div class="ppap-overview-metrics" id="ppapOverviewMetrics"></div></div>
+      </div>
+      <div class="ppap-model-grid" id="ppapModelCards"></div>
+      <div class="card ppap-detail-card hidden" id="ppapDetailCard">
+        <div class="card-title"><div><div class="eyebrow">Selected model</div><h2 id="ppapSelectedModelTitle">Model</h2><p id="ppapSelectedModelMeta"></p></div><button class="ghost" id="ppapCloseDetailBtn">Close</button></div>
+        <div class="ppap-detail-wrap full" id="ppapDetailWrap">
+          <div class="ppap-table-pane"><div class="table-scroll"><table class="ppap-detail-table"><thead><tr><th>Part No</th><th>Item Name</th><th>Supplier</th><th>Drawing Status</th><th>HSMS</th><th>DQMS</th><th>SPR</th><th>Due Date<br>(PPAP Target)</th><th>Dev Flow</th></tr></thead><tbody id="ppapPartRows"></tbody></table></div></div>
+          <aside class="ppap-dev-drawer hidden" id="ppapDevDrawer">
+            <div class="ppap-dev-head"><div><div class="eyebrow">PIC update</div><h3 id="ppapDevPartTitle">Part</h3></div><button class="ghost small" id="ppapDevCloseBtn">×</button></div>
+            <div class="ppap-dev-body"><label>Dev Flow / PIC Update</label><textarea id="ppapDevText" rows="10" placeholder="Update detailed development flow / PIC note here..."></textarea><div class="ppap-dev-meta"><label>Updated by <input id="ppapDevPic" placeholder="PIC" /></label><label>Update date <input id="ppapDevDate" type="date" /></label></div><button class="primary" id="ppapDevSaveBtn">Save update</button></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+<section class="page" id="page-modelList">
+      <div class="page-head"><div><div class="eyebrow">Master data</div><h1>Model List</h1><p>Full list from IVI Product Overview V2.0</p></div><button class="primary" id="addModelListBtn">＋ Add model</button></div>
+      <div class="toolbar one"><label>Search all fields<div class="searchbox">⌕<input id="masterSearch" placeholder="Customer, model, product, PIC..." /></div></label></div>
+      <div class="card table-card"><div class="table-scroll"><table><thead><tr><th>No</th><th>Customer</th><th>Model name</th><th>Product</th><th>Line</th><th>Floor</th><th>Stage</th><th>SOP</th><th>EOL</th><th>VH PIC</th><th></th></tr></thead><tbody id="masterRows"></tbody></table></div></div>
+    </section>
+
+    <section class="page" id="page-mold">
+      <div class="page-head"><div><div class="eyebrow">Tooling</div><h1>Mold List</h1><p>Grouped by PIC · White → Processing → Done</p></div><button class="primary" id="addMoldBtn">＋ Add mold item</button></div>
+      <div class="toolbar three"><label>PIC<select id="moldPic"><option value="All">All PIC</option></select></label><label>OEM<select id="moldOem"><option value="All">All OEM</option></select></label><label>Search<div class="searchbox">⌕<input id="moldSearch" placeholder="Model / Part / Part No" /></div></label></div>
+      <div class="kpi-row" id="moldKpis"></div><div id="moldGroups"></div>
+    </section>
+
+    <section class="page" id="page-event">
+      <div class="page-head"><div><div class="eyebrow">Weekly readiness</div><h1>Event Check List</h1><p>Weekly overview + 21 items + readiness + issue follow-up</p></div><button class="primary" id="addEventBtn">＋ Add event</button></div>
+      <div class="card weekly"><div class="card-title"><div><h2>Weekly Event Overview</h2><p id="weekRange"></p></div><div class="legend"><span><i class="dot green"></i>Can Build</span><span><i class="dot yellow"></i>At Risk</span><span><i class="dot red"></i>Can't Build</span></div></div><div class="kpi-row" id="eventKpis"></div><div id="weeklyEvents" class="weekly-list"></div></div>
+      <div class="card event-head"><div class="card-title"><div><div class="eyebrow">Selected event</div><h2>Event Sample Build Pre-Check List</h2></div><div id="buildStatus" class="build-status"></div></div><div class="event-form"><label>Project / Model / Grade<input id="evtProject"></label><label>Event name<input id="evtName"></label><label>Event date<input id="evtDate" type="date"></label><label>WO<input id="evtWo"></label><label>Q'ty<input id="evtQty" type="number"></label><label>FA<input id="evtFa"></label></div><div id="eventWarning" class="warning hidden"></div></div>
+      <div class="two-col"><div class="card pad"><div class="card-title"><div><h2>1. 21 Items Check List</h2><p>Upload and view evidence per item</p></div></div><div id="check21"></div></div><div class="card pad"><div class="card-title"><div><h2>2. Readiness</h2><p>Mandatory build items: 1, 2, 5, 6, 8, 12</p></div></div><div id="readiness"></div></div></div>
+      <div class="card pad"><div class="card-title"><div><h2>Issue Follow-up</h2><p>Current / previous event issues</p></div><button class="secondary" id="addEventIssue">＋ Add issue</button></div><div id="eventIssues" class="event-issues"></div></div>
+    </section>
+
+    <section class="page" id="page-issue">
+      <div class="page-head"><div><div class="eyebrow">Mechanical quality</div><h1>MP Mechanical Issue List 2026</h1><p>17 issues linked to 102 source slides</p></div><button class="primary" id="addIssueBtn">＋ Add issue</button></div>
+      <div class="kpi-row" id="issueKpis"></div>
+      <div class="toolbar three"><label>Project<select id="issueProject"><option value="All">All projects</option></select></label><label>Status<select id="issueStatus"><option value="All">All status</option><option>Done</option><option>Processing</option><option>Monitoring</option></select></label><label>Search<div class="searchbox">⌕<input id="issueSearch" placeholder="Issue / project / root cause..." /></div></label></div>
+      <div class="card table-card"><div class="table-scroll"><table><thead><tr><th>No</th><th>Project</th><th>Issue type</th><th>Issue name</th><th>Root cause</th><th>Corrective action</th><th>Analysis</th><th>Solution</th><th>Monitoring</th><th>Slides</th></tr></thead><tbody id="issueRows"></tbody></table></div></div>
+    </section>
+  </main>
+</div>
+<div class="modal-backdrop hidden" id="modalBackdrop"><div class="modal"><button class="modal-close" id="modalClose">×</button><div id="modalBody"></div></div></div>
+<input id="filePicker" type="file" class="hidden" />
+<script src="data.js"></script><script src="app.js"></script>
+</body>
+</html>
